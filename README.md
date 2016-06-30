@@ -5,6 +5,7 @@ The initial version of the COnCEPT COnDO ontology is based on the concepts intro
 
 #Overview of ontology
 High level classes of COnDO help to sharing information between products and design teams and associate content to products. Profiles and metadata can be extended with other conceptual classifications or generic ontologies such as FOAF or those provided by semantic desktops such as Nepomuk. Guidelines for mapping to other ontologies are provided in wiki pages. 
+
 ![alt tag](https://raw.githubusercontent.com/OntoRep/COnCEPT/master/COnDO%20high%20level%20classes.png)
 
 Fig 1: High level classes
