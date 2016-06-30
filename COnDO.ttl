@@ -1,0 +1,567 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . #Resource data framework
+@prefix owl: <http://www.w3.org/2002/07/owl#> .              #Owl ontology language
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .      #RDF schema 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .           #XML standard datatypes
+
+@prefix vann: <http://purl.org/vocab/vann/> .                #Vocabulary annotation
+@prefix voaf: <http://purl.org/vocommons/voaf#> .            #Vocabulary relations
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .#Vocabulary status
+
+@prefix cc: <http://creativecommons.org/ns#> . #Creative commons
+@prefix dc: <http://purl.org/dc/terms/> .      #Dublin core (note purl.org is dead)
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> . #Simple knowledge organization vocabulary
+@prefix foaf: <http://xmlns.com/foaf/0.1/>. #FOAF is used to enable modelling persons and design teams
+@prefix gr: <http://purl.org/goodrelations/v1#>. #Goodrelations vocabulary can used to enable modelling product metadata. (note: purl.org is dead)
+
+#The goal of thess alignment links is to help using other ontologies to complement the COnDO vocabulary
+@prefix yso: <http://www.yso.fi/onto/yso/> .   #Finnish upper ontology
+@prefix nie: <http://www.semanticdesktop.org/ontologies/2007/01/19/nie#> . #NEPOMUK Information Element Ontology
+@prefix pimo: <http://www.semanticdesktop.org/ontologies/2007/11/01/pimo#>. #Personal Information Model 
+@prefix nao: <http://www.semanticdesktop.org/ontologies/2007/08/15/nao#>.  #NEPOMUK Annotation Ontology
+@prefix nco: <http://www.semanticdesktop.org/ontologies/2007/03/22/nco#>. #NEPOMUK Contact Ontology
+
+@prefix : <http://www.w3id.org/Concept/Ontology/COnDO#> .     #COnDO ontology (future) namespace might still change 
+
+
+
+:COnDO rdf:type voaf:Vocabulary , owl:Ontology ;
+  dc:creator "Julia Kantorovitch, VTT", "Jarmo Kalaoja, VTT" ;
+  dc:description "The COnCEPT upper-level Design Ontology (COnDO)."@en ;
+  dc:issued "2016-06-09"^^xsd:date ;
+  dc:modified "2016-06-23"^^xsd:date ;
+  dc:title "The COnCEPT upper-level Design Ontology"@en ;
+  voaf:reliesOn <http://xmlns.com/foaf/0.1/>, <http://purl.org/goodrelations/v1>; #Does not import the ontologies
+  voaf:metadataVoc <http://www.yso.fi/onto/yso/>, <http://www.semanticdesktop.org/ontologies/2007/11/01/pimo>, 
+         <http://www.semanticdesktop.org/ontologies/2007/01/19/nie>;
+  vann:preferredNamespacePrefix "condo" ;
+  vann:preferredNamespaceUri <http://W3id.org/Concept/Ontology/COnDO#> ; 
+  owl:versionInfo "v0.1" .
+
+#Top level classes and relations  
+:Category a owl:Class;
+  rdfs:label "Category"@en ;
+  skos:closeMatch yso:p12668;
+  rdfs:comment "Category of something."@en.
+  
+:DesignProject a owl:Class;
+  rdfs:label "DesignProject"@en ;
+  rdfs:subClassOf foaf:Project;
+  skos:relatedMatch yso:p14260;
+  skos:narrowMatch pimo:Project;
+  rdfs:comment "Class of design projects"@en.
+  
+:hasProduct a owl:ObjectProperty;
+  rdfs:label "hasProduct"@en ;
+  rdfs:domain :DesignProject;
+  rdfs:range :Product;
+  rdfs:comment "Design project has a product."@en.      
+   
+:Function a owl:Class;
+  rdfs:label "Function"@en ;
+  rdfs:comment "Function of something."@en.    
+   
+:observes a owl:ObjectProperty;
+  rdfs:label "observes"@en ;
+  rdfs:domain :Person;
+  rdfs:range :Function;
+  rdfs:comment "User observes product."@en.  
+	
+:Product a owl:Class;
+  rdfs:label "Product"@en ;
+  rdfs:subClassOf :Category;
+  skos:exactMatch pimo:Person;  
+  rdfs:comment "Class products that are designed"@en.  
+    
+:hasProductProfile a owl:ObjectProperty;
+  rdfs:label "hasProductProfile"@en ;
+  rdfs:domain :Product;
+  rdfs:range :ProductProfile;
+  rdfs:comment "Product has a profile."@en.   
+  
+:ProductProfile a owl:Class;
+  rdfs:label "ProductProfile"@en ;
+  rdfs:subClassOf gr:ProductOrServiceModel;  #Products can be described using gr and possibly other vocabularies
+  rdfs:comment "Class of profiles for persons."@en.    
+  
+:isAssociatedTo a owl:SymmetricProperty;
+  rdfs:label "isAssociatedTo"@en ;
+  rdfs:comment "Something is asoociated to something."@en.        
+  
+:contentIsAssociatedTo a owl:SymmetricProperty;
+  rdfs:label "contentIsAssociatedTo"@en ;
+  rdfs:subPropertyOf :isAssociatedTo;
+  rdfs:domain :Content;
+  rdfs:range :Product;
+  rdfs:comment "content is asoociated to procuct etc."@en.     
+        
+:productIsAssociatedTo a owl:SymmetricProperty;
+  rdfs:label "productIsAssociatedTo"@en ;
+  rdfs:subPropertyOf :isAssociatedTo;
+  rdfs:domain :Product;
+  rdfs:range :Person;
+  rdfs:comment "content is asoociated to procuct etc."@en.  
+		
+:hasProductLanguage a owl:ObjectProperty;
+  rdfs:label "hasProductLanguage"@en ;
+  rdfs:domain :Product;
+  rdfs:range :ProductLanguage;
+  rdfs:comment "Product has a product language."@en.       
+    
+:ContentMetadata a owl:Class;
+  rdfs:label "ContentMetaData"@en ;
+  rdfs:subClassOf :Category;
+  skos:closeMatch yso:p9319;
+  skos:broadMatch nie:InformationElement;
+  rdfs:comment "ContentMetadata class is used as a wrapper collecting together different aspects of the product to be designed into the content metadata. It can be a logidal part of the original content item."@en.  
+  
+:Content a owl:Class;
+  rdfs:label "Content"@en ;
+  skos:broadMatch yso:p2579;
+  skos:exactMatch nie:InformationElement;
+  rdfs:comment "Class contents."@en.  
+  
+:hasMetadata a owl:ObjectProperty;
+  rdfs:label "hasMetadata"@en ;
+  rdfs:domain :Content;
+  rdfs:range :ContentMetadata;
+  skos:broadMatch nie:hasLogicalPart;
+  rdfs:comment "Link to content metadata wrapper."@en.      
+   
+:Person a owl:Class;
+  rdfs:label "Person"@en ;
+  skos:broadMatch yso:p18849;
+  rdfs:comment "Class of persons."@en.
+  
+:hasProfile a owl:ObjectProperty;
+  rdfs:label "hasProfile"@en ;
+  rdfs:domain :Person;
+  rdfs:range :PersonProfile;
+  rdfs:comment "Person has a profile."@en.    
+  
+:PersonProfile a owl:Class;
+  rdfs:label "PersonProfile"@en ;
+  rdfs:subClassOf foaf:Person;  #Person profiles are modelled as foaf:Person and possibly other vocabularies
+  skos:narrowMatch nco:Contact;  
+  rdfs:comment "Class of profiles for persons."@en.  
+    
+:Designer a owl:Class;
+  rdfs:label "Designer"@en ;
+  rdfs:subClassOf :Person;
+  skos:closeMatch yso:p12245;  
+  rdfs:comment "Class of designers."@en.  
+
+:hasDesignTeam a owl:ObjectProperty;
+  rdfs:label "hasDesignTeam"@en ;
+  rdfs:domain :Designer;
+  rdfs:range :DesignTeam;
+  rdfs:comment "Designer is member of a design team."@en.  
+  
+:hasDesignProject a owl:ObjectProperty;
+  rdfs:label "hasDesignProject"@en ;
+  rdfs:domain :Designer;
+  rdfs:range :DesignProject;
+  rdfs:comment "Designer works in a design project."@en.      
+  
+:EndUser a owl:Class;
+  rdfs:label "EndUser"@en ;
+  rdfs:subClassOf :Person;
+  skos:closeMatch yso:p16550;   
+  rdfs:comment "Class of end users."@en.    
+  
+:DesignTeam a owl:Class;
+  rdfs:label "DesignTeam"@en ;
+  skos:narrowMatch yso:p6374;    
+  rdfs:comment "Class of design teams"@en.    
+
+:ProductFunction a owl:Class;
+  rdfs:label "ProductFunction"@en ;
+  rdfs:comment """Product function describes more practical or sometimes referred to as syntactical aspects of the product,"""@en;
+  rdfs:subClassOf :Function.
+  
+:hasFunction a owl:ObjectProperty;
+  rdfs:label "hasFunction"@en ;
+  rdfs:domain :Product;
+  rdfs:range :Function;
+  rdfs:comment "Product has  function."@en.       
+  
+:ProductLanguage a owl:Class;
+  rdfs:label "ProductLanguage"@en ;
+  rdfs:comment """ProductLanguage it represents the semantic features of the product i.e. what contents products may communicate, how they do this, what they might mean to whom, and what designers might contribute to this, also named Sensual Functions (Steffen, 2009)"""@en;
+  rdfs:subClassOf :Function.
+
+:SemanticFunction a owl:Class;
+  rdfs:label "SemanticFunction"@en ;
+  rdfs:subClassOf :ProductLanguage;
+  rdfs:comment "SemanticFunction"@en.
+
+:AestheticFunction a owl:Class;
+  rdfs:label "AestheticFunction"@en ;
+  rdfs:subClassOf :ProductLanguage;
+  rdfs:comment "The concepts of Aesthetic functions help to distinguish between order and complexity, and reduction of stimuli versus richness of stimuli using the terms of shapes, colour, texture, material etc."@en.  
+  
+:IndicationFunction a owl:Class;
+  rdfs:label "IndicationFunction"@en ;
+  rdfs:subClassOf :SemanticFunction;
+  rdfs:comment "The Indication functions enable the nature of a product or the product category to be identified."@en;.    
+  
+:SymbolFunction a owl:Class;
+  rdfs:label "SymbolFunction"@en ;
+  rdfs:subClassOf :SemanticFunction;
+  rdfs:comment "SymbolFunction"@en.  
+  
+#Product function related categories 
+  
+:Domain a owl:Class;
+  rdfs:label "Domain"@en;
+  rdfs:subClassOf :ProductFunction;
+  rdfs:comment "Domain"@en.  
+  
+:Fashion a owl:Class;
+  rdfs:label "Fashion"@en;
+  rdfs:subClassOf :Domain;
+  skos:closeMatch yso:p4732;      
+  rdfs:comment "Fashion"@en.   
+
+:Kitchenware a owl:Class;
+  rdfs:label "Kitchenware"@en;
+  rdfs:subClassOf :Domain;
+  skos:narrowMatch yso:p19347;    
+  rdfs:comment "Kitchenware"@en.     
+  
+:Technology a owl:Class;
+  rdfs:label "Technology"@en;
+  rdfs:subClassOf :ProductFunction;
+  skos:relatedMatch yso:p1586;     
+  rdfs:comment "Technology"@en. 
+
+:Service a owl:Class;
+  rdfs:label "Service"@en;
+  rdfs:subClassOf :Technology;
+  skos:broadMatch yso:p838;    
+  rdfs:comment "Service"@en.   
+  
+:Device a owl:Class;
+  rdfs:label "Device"@en;
+  rdfs:subClassOf :Technology;
+  skos:closeMatch yso:p2442;    
+  rdfs:comment "Device"@en.     
+  
+:Ergonomics a owl:Class;
+  rdfs:label "Ergonomics"@en;
+  rdfs:subClassOf :ProductFunction;
+  skos:closeMatch yso:p6679;      
+  rdfs:comment "Ergonomics"@en.  
+  
+:Safe a owl:Class;
+  rdfs:label "Safe"@en;
+  rdfs:subClassOf :Ergonomics;
+  skos:relatedMatch yso:p22581;      
+  rdfs:comment "Safe"@en.  
+  
+:Comfortable a owl:Class;
+  rdfs:label "Comfortable"@en;
+  rdfs:subClassOf :Ergonomics;
+  skos:relatedMatch yso:p7772;    
+  rdfs:comment "Comfortable"@en.   
+
+:Economics a owl:Class;
+  rdfs:label "Economics"@en;
+  rdfs:subClassOf :ProductFunction;
+  skos:narrowMatch yso:p3675;      
+  rdfs:comment "Economics"@en.      
+  
+:Cost a owl:Class;
+  rdfs:label "Cost"@en;
+  rdfs:subClassOf :Economics;
+  skos:closeMatch yso:p7517;    
+  rdfs:comment "Cost"@en.    
+
+:Expensive a owl:Class;
+  rdfs:label "Expensive"@en;
+  rdfs:subClassOf :Cost;
+  rdfs:comment "Expensive"@en.    
+  
+:Market a owl:Class;
+  rdfs:label "Market"@en;
+  rdfs:subClassOf :Economics;
+  skos:broadMatch yso:p13225,yso:p1865;    
+  rdfs:comment "Market"@en.     
+  
+:Premium a owl:Class;
+  rdfs:label "Premium"@en;
+  rdfs:subClassOf :Market;
+  rdfs:comment "Premium"@en.     
+  
+:Rare a owl:Class;
+  rdfs:label "Rare"@en;
+  rdfs:subClassOf :Premium;
+  rdfs:comment "Rare"@en.       
+  
+:Mass a owl:Class;
+  rdfs:label "Mass"@en;
+  rdfs:subClassOf :Market;
+  skos:relatedMatch yso:p4502;   
+  rdfs:comment "Mass"@en.    
+  
+:Ecology a owl:Class;
+  rdfs:label "Ecology"@en;
+  rdfs:subClassOf :ProductFunction;
+  skos:closeMatch yso:p22330,yso:p25399;     
+  rdfs:comment "Ecology"@en.    
+
+:Durable a owl:Class;
+  rdfs:label "Durable"@en;
+  rdfs:subClassOf :Ecology;
+  skos:relatedMatch yso:p4094;    
+  rdfs:comment "Durable"@en.      
+  
+:Sustainable a owl:Class;
+  rdfs:label "Sustainable"@en;
+  rdfs:subClassOf :Ecology;
+  skos:closeMatch yso:p25966;     
+  rdfs:comment "Sustainable"@en.     
+  
+#AestheticFunction categories  
+:Order a owl:Class;
+  rdfs:label "Order"@en;
+  rdfs:subClassOf :AestheticFunction;
+  :complements :Complexity;
+  skos:closeMatch yso:p624;    
+  rdfs:comment "Order"@en. 
+  
+:Simple a owl:Class;
+  rdfs:label "Simple"@en;
+  rdfs:subClassOf :Order;
+  :complements :Manifold;
+  skos:closeMatch yso:p20770;      
+  rdfs:comment "Simple"@en.   
+
+:Symmetrical a owl:Class;
+  rdfs:label "Symmetrical"@en;
+  rdfs:subClassOf :Order;
+  :complements :Asymmetrical;
+  skos:closeMatch yso:p15022;      
+  rdfs:comment "Symmetrical"@en.     
+  
+:Closed a owl:Class;
+  rdfs:label "Closed"@en;
+  rdfs:subClassOf :Order;
+  :complements :Open;
+  rdfs:comment "Closed"@en.
+
+:Clear a owl:Class;
+  rdfs:label "Clear"@en;
+  rdfs:subClassOf :Order; 
+  rdfs:comment "Clear"@en.    
+  
+:Complexity a owl:Class;
+  rdfs:label "Complexity"@en;
+  rdfs:subClassOf :AestheticFunction;
+  skos:closeMatch yso:p6340;  
+  rdfs:comment "Complexity"@en.   
+  
+:Manifold a owl:Class;
+  rdfs:label "Manifold"@en;
+  rdfs:subClassOf :Complexity;
+  rdfs:comment "Manifold"@en.   
+  
+:Asymmetrical a owl:Class;
+  rdfs:label "Asymmetrical"@en;
+  rdfs:subClassOf :Complexity;
+  skos:closeMatch yso:p15023;    
+  rdfs:comment "Asymmetrical"@en.     
+  
+:Open a owl:Class;
+  rdfs:label "Open"@en;
+  rdfs:subClassOf :Complexity;
+  rdfs:comment "Open"@en.   
+
+:Unclear a owl:Class;
+  rdfs:label "Unclear"@en;
+  rdfs:subClassOf :Complexity;
+  rdfs:comment "Unclear"@en.     
+  
+:UniversalDesignPrinciple a owl:Class;
+  rdfs:label "UniversalDesignPrinciple"@en;
+  rdfs:subClassOf :AestheticFunction;
+  rdfs:comment "UniversalDesignPrinciple"@en.   
+ 
+#IndicationFunction categories    
+:Identity a owl:Class;
+  rdfs:label "Identity"@en;
+  rdfs:subClassOf :IndicationFunction;
+  #rdfs:subClassOf [a owl:Restriction; 
+  #                 owl:onProperty :hasCharacter; 
+  #				   owl:someValuesFrom  :CharacterOfIdentity];  
+  rdfs:comment "Identity"@en. 
+  
+:Brand a owl:Class;
+  rdfs:label "Brand"@en;
+  rdfs:subClassOf :Identity;
+  rdfs:comment "Brand"@en. 
+  
+:Material a owl:Class;
+  rdfs:label "Material"@en;
+  rdfs:subClassOf :Identity;
+  skos:closeMatch yso:p710;     
+  rdfs:comment "Material"@en.   
+  
+:Character a owl:Class;
+  rdfs:label "Character"@en;
+  rdfs:subClassOf :Identity;
+  rdfs:comment "Identifying character"@en.     
+
+:hasCharacter a owl:ObjectProperty;
+  rdfs:label "hasCharacter"@en ;
+  rdfs:domain :Style;
+  rdfs:range :Character;
+  rdfs:comment "Something can be identified by a characteristic symbol etc."@en.   
+  
+:Common a owl:Class;
+  rdfs:label "Common"@en;
+  rdfs:subClassOf :Character;
+  rdfs:comment "Common"@en.      
+  
+:Individual a owl:Class;
+  rdfs:label "Individual"@en;
+  rdfs:subClassOf :Character;
+  rdfs:comment "Individual"@en.     
+  
+:Practicality a owl:Class;
+  rdfs:label "Practicality"@en;
+  rdfs:subClassOf :IndicationFunction;
+  rdfs:comment "Practicality"@en.   
+
+:Stability a owl:Class;
+  rdfs:label "Stability"@en;
+  rdfs:subClassOf :Practicality;
+  skos:closeMatch yso:p3071;    
+  rdfs:comment "Stability"@en.     
+
+:Usability a owl:Class;
+  rdfs:label "Usability"@en;
+  rdfs:subClassOf :Practicality;
+  rdfs:comment "Usability"@en.     
+    
+#SymbolFunction categories    
+
+:Style a owl:Class;
+  rdfs:label "Style"@en;
+  rdfs:subClassOf :SymbolFunction;
+  skos:closeMatch yso:p421;   				   
+  rdfs:comment "Style"@en. 
+
+:National a owl:Class;
+  rdfs:label "National"@en;
+  rdfs:subClassOf :Style;   
+  skos:narrowMatch yso:p8953;     
+  rdfs:comment "National"@en.   
+  
+:Classic a owl:Class;
+  rdfs:label "Classic"@en;
+  rdfs:subClassOf :Style;
+  skos:narrowMatch yso:p10167;     
+  rdfs:comment "Classic"@en.     
+  
+:Corporate a owl:Class;
+  rdfs:label "Corporate"@en;
+  rdfs:subClassOf :Style;
+  rdfs:comment "Corporate"@en.    
+
+:ArtDeco a owl:Class;
+  rdfs:label "ArtDeco"@en;
+  rdfs:subClassOf :Style;
+  skos:closeMatch yso:p16037;      
+  rdfs:comment "ArtDeco"@en.   
+  
+:Pop a owl:Class;
+  rdfs:label "Pop"@en;
+  rdfs:subClassOf :Style;
+  rdfs:comment "Pop"@en.    
+
+:Romantic a owl:Class;
+  rdfs:label "Romantic"@en;
+  rdfs:subClassOf :Style;
+  skos:narrowMatch yso:p12824;     
+  rdfs:comment "Romantic"@en.    
+  
+:Trend a owl:Class;
+  rdfs:label "Trend"@en;
+  rdfs:subClassOf :Style;
+  rdfs:comment "Trend"@en.    
+
+:DesigerStyle a owl:Class;
+  rdfs:label "DesigerStyle"@en;
+  rdfs:subClassOf :Style;
+  skos:relatedMatch yso:p12245;     
+  rdfs:comment "DesigerStyle"@en.   
+
+:Gucci a owl:Class;
+  rdfs:label "Gucci"@en;
+  rdfs:subClassOf :DesigerStyle;  
+  rdfs:comment "Gucci"@en.    
+  
+:Association a owl:Class;
+  rdfs:label "Association"@en;
+  rdfs:subClassOf :SymbolFunction;	                
+  rdfs:comment "Association"@en. 
+  
+:complements a owl:ObjectProperty, owl:SymmetricProperty;
+  rdfs:label "complements"@en ;
+  rdfs:domain :Function;
+  rdfs:range :Function;
+  rdfs:comment """Function complements  or is counterpart provides contrast to another function in design but is not necessarily an exact opposite."""@en.      
+  
+:Old a owl:Class;
+  rdfs:label "Old"@en;
+  rdfs:subClassOf :Association;
+  rdfs:complements :Young;
+  rdfs:comment "Old"@en.   
+  
+:Young a owl:Class;
+  rdfs:label "Young"@en;
+  rdfs:subClassOf :Association;
+  rdfs:comment "Young"@en.     
+  
+:Aggressive a owl:Class;
+  rdfs:label "Aggressive"@en;
+  rdfs:subClassOf :Association;
+  rdfs:comment "Aggressive"@en.     
+  
+:Cold a owl:Class;
+  rdfs:label "Cold"@en;
+  rdfs:subClassOf :Association;
+  :complements :Warm;
+  skos:narrowMatch yso:p2053;    
+  rdfs:comment "Cold"@en.    
+  
+:Warm a owl:Class;
+  rdfs:label "Warm"@en;
+  rdfs:subClassOf :Association;
+  rdfs:comment "Warm"@en.    
+  
+:Dark a owl:Class;
+  rdfs:label "Dark"@en;
+  rdfs:subClassOf :Association;
+  skos:narrowMatch yso:p7779;     
+  rdfs:comment "Dark"@en.      
+  
+#Identifiable characters of style        
+:Time a owl:Class;
+  rdfs:label "Time"@en;
+  rdfs:subClassOf :Character;
+  skos:narrowMatch yso:p570;      
+  rdfs:comment "Time"@en.       
+
+:Region a owl:Class;
+  rdfs:label "Region"@en;
+  rdfs:subClassOf :Character;
+  skos:narrowMatch yso:p15157;      
+  rdfs:comment "Region"@en.      
+  
+:Movement a owl:Class;
+  rdfs:label "Movement"@en;
+  rdfs:subClassOf :Character;
+  rdfs:comment "Movement"@en.      
+  
+       
