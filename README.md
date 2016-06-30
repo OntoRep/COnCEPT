@@ -4,7 +4,7 @@ COnDO is an upper-level ontology which is designed aiming to support the designe
 The initial version of the COnCEPT COnDO ontology is based on the concepts introduced by Offenbach theory of Product Language (Gross, 1987; Steffen, 2007; Steffen 2009). Moreover, it is extended and initiated with the concepts suggested by end-user partners of the COnCEPT consortium as well as leveraging the concepts gathered in the literature review (e.g. Mougenot, 2007; Guaenand, 2003).
 
 #Overview of ontology
-High level classes of COnDO help to sharing information between products and design teams and associate content to products. Profiles and metadata can be extended with other conceptual classifications or generic ontologies such as FOAF or those provided by semantic desktops such as Nepomuk. Guidelines for mapping to other ontologies are provided. 
+High level classes of COnDO help to sharing information between products and design teams and associate content to products. Profiles and metadata can be extended with other conceptual classifications or generic ontologies such as FOAF or those provided by semantic desktops such as Nepomuk. Guidelines for mapping to other ontologies are provided in wiki pages. 
 ![alt tag](https://raw.githubusercontent.com/OntoRep/COnCEPT/master/COnDO%20high%20level%20classes.png)
 
 Fig 1: High level classes
