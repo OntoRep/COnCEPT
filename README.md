@@ -1,6 +1,10 @@
 # COnCEPT upper-level Design Ontology (COnDO)
 COnDO is an upper-level ontology which is designed aiming to support the designer in various activities of knowledge management during the initial stage of the product design process.
 
+The list of concepts currently defined in the COnDO ontologies are not meant to be as exhaustive. The objective of the modelling work was to create the initial easily extendable model of design vocabularies and give it to researchers an developers for further developing and testing with own applications.
+The early stage conception process is entirely subjective and fluid, so we believe that the underlying question about how knowledge needs to be structured should be approached from product point of view. Consequently, the COnDO ontology is designed to attain a common vision through the set of ontological concepts, allowing the product to be described from different points of view, based on the understanding of currently used vocabularies and accordingly to propose the structured organisation of the design content. Accordingly, the proposed concepts aim at providing the common vocabularies to support various stakeholders collaborating in the initial stage of product design. The content metadata aligned with the proposed concepts allows the restriction and personalisation of the search spaces such as: search of content based on the application domain of the product, deployed technology, market aspects or semantic properties of the product. The ontology may facilitate the search for related and associated content, for example to search for products/concepts based on the similar property of product/concept being considered, but from a different domain.
+
+
 The initial version of the COnCEPT COnDO ontology is based on the concepts introduced by Offenbach theory of Product Language (Gross, 1987; Steffen, 2007; Steffen 2009). Moreover, it is extended and initiated with the concepts suggested by end-user partners of the COnCEPT consortium as well as leveraging the concepts gathered in the literature review (e.g. Mougenot, 2007; Guaenand, 2003).
 
 #Overview of ontology
