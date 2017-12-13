@@ -10,7 +10,7 @@ Model also enables experimental research to test some theoretical approaches int
 
 The COnCEPT COnDO ontology is based on the concepts introduced by Offenbach theory of Product Language (Gross, 1987; Steffen, 2007; Steffen 2009). Moreover, it is extended and initiated with the concepts suggested by end-user partners of the COnCEPT consortium (http://www.concept-fp7.eu/), as well as leveraging the concepts gathered in the literature review (e.g. Mougenot, 2007; Guaenand, 2003).
 
-#Overview of ontology
+# Overview of ontology
 High level classes of COnDO help to sharing information between products and design teams and associate content to products (see Fig.1). 
 
 Profiles and content metadata can be extended with other conceptual classifications or generic ontologies such as FOAF or those provided by semantic desktops such as Nepomuk. Guidelines for mapping to other ontologies are provided in wiki pages. 
@@ -47,7 +47,7 @@ Fig 5: Indication functions
 
 Fig 6: Symbol functions
 
-#References
+# References
 Gros, J. Grundlagen einer Theorie der Produktsprache, Symbolfunktionen. (1987) (Ed. Academyof Art and Design Offenbach).Fischer R. and Mikosch G. Grundlagen einer Theorie der Produktsprache, Anzeichenfunktionen ,1984 (Ed. Academy of Art and Design Offenbach).
 
 Steffen, D. (2007). Design semantics of innovation, product language as a reflection on technical innovation and socio-cultural change. In Proceedings of Design Semiotics in Use workshop, held as a part of World Congress in Semiotics "Communication: Understanding/ Misunderstanding, June 6-8, Helsinki, Finland
